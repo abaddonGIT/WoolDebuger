@@ -1,0 +1,58 @@
+{
+  "name": "newProjectBundle",
+  "version": "0.0.0",
+  "dependencies": {
+    "font-awesome": "latest",
+    "jquery": "*",
+    "bootstrap-grid-css": "latest",
+    "normalize-css": ">=3.0.2",
+    "wow": "latest",
+    "animate.css": "latest",
+    "fetch": "latest",
+    "es6-promise": "latest"
+  },
+  "overrides": {
+    "fetch": {
+      "src/js/venders/fetch": ["fetch.js"]
+    },
+    "es6-promise": {
+      "src/js/venders/promise": [
+        "promise.min.js",
+        "promise.js"
+      ]
+    },
+    "jquery": {
+      "src/js/venders/jquery": ["dist/jquery.min.js"]
+    },
+    "fancybox": {
+      "src/js/venders/fancybox": [
+        "source/jquery.fancybox.pack.js",
+        "source/jquery.fancybox.css",
+        "source/*.png",
+        "source/*.gif"
+      ]
+    },
+    "bootstrap-grid-css": {
+      "src/css/grid": ["grid.css"]
+    },
+    "normalize-css": {
+      "src/css/normalize": ["normalize.css"]
+    },
+    "font-awesome": {
+      "src/css/font-awesome/css": ["css/*"],
+      "src/css/font-awesome/fonts": ["fonts/*"]
+    },
+    "animate.css": {
+      "src/css/animate": [
+        "animate.css",
+        "animate.min.css"
+      ]
+    },
+    "wow": {
+      "src/js/venders/wow": [
+        "dist/wow.js",
+        "dist/wow.min.js"
+      ]
+    }
+  }
+}
