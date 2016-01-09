@@ -1,5 +1,6 @@
-# WoolDebuger ([DEMO](http://angular.demosite.pro/jsondebug/htdocs/index.html))
+# WoolDebuger
 Visualization debug information from the server using JSONEditor and sockjs. The application establishes a connection with a Web socket on which receives information from the server for presentation and save her in localStorage.
+[DEMO](http://angular.demosite.pro/jsondebug/htdocs/index.html)
 ##Python example debug connection
     from tornado import web, ioloop
     from sockjs.tornado import SockJSRouter, SockJSConnection
