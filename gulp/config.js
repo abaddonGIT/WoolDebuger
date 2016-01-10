@@ -45,9 +45,9 @@ module.exports = {
     },
     sftp: {
         dest: dest + "/**",
-        host: '188.120.234.133',
-        user: 'root',
-        pass: 'ItfaucW7bLAt',
-        remotePath: '/var/www/taxi/data/www/client.taxicomfort68.ru'
+        host: '',
+        user: '',
+        pass: '',
+        remotePath: ''
     }
 };
