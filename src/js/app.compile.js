@@ -25594,6 +25594,10 @@ var _objectAssign = require("object-assign");
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
+var _SockService = require("../services/SockService");
+
+var _SockService2 = _interopRequireDefault(_SockService);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -25658,7 +25662,7 @@ var SettionsFrom = function (_Component) {
             }
 
             _Utility2.default.success("Настройки успешно применены!");
-
+            _SockService2.default.connect();
             e.preventDefault();
             e.stopPropagation();
         }
@@ -25708,7 +25712,7 @@ var SettionsFrom = function (_Component) {
 
 exports.default = SettionsFrom;
 
-},{"../Utility":219,"../stores/LocalStore":239,"object-assign":29,"react":216}],231:[function(require,module,exports){
+},{"../Utility":219,"../services/SockService":235,"../stores/LocalStore":239,"object-assign":29,"react":216}],231:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();

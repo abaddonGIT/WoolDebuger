@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import LocalStore from "../stores/LocalStore";
 import Utility from "../Utility";
 import merge from "object-assign";
+import SockService from "../services/SockService";
 
 export default class SettionsFrom extends Component {
     constructor() {
@@ -42,7 +43,7 @@ export default class SettionsFrom extends Component {
         }
 
         Utility.success("Настройки успешно применены!");
-
+        SockService.connect();
         e.preventDefault();
         e.stopPropagation();
     }
