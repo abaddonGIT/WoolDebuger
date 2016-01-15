@@ -29,6 +29,15 @@ export default {
     },
 
     /**
+     * Clear debug list
+     */
+    clear() {
+        Dispatcher.dispatch({
+            actionType: ACTIONS_TYPES.CLEAR_DEBUG_LIST
+        });
+    },
+
+    /**
      * Hide debug panel
      */
     hidePanel() {

@@ -73,6 +73,17 @@ export default class DebugList extends Component {
         GlobalStore.trigger("SELECT_ITEM_FROM_LIST", input.value, input.checked);
     }
 
+    /**
+     * Clear debug history from storage
+     * @param e
+     * @private
+     */
+    _clearDebugList(e) {
+        StorageActions.clear();
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
     render() {
         var list = this.props.debugList, listRows = {}, ln = list.length;
 
@@ -97,6 +108,9 @@ export default class DebugList extends Component {
             <aside id="leftSidebar" className="show" ref="panel">
                 <div className="rotate">
                     <div id="list" className="col col--one">
+                        <button onClick={this._clearDebugList.bind(this)} className="btn btn--cube save clearHistory">
+                            Очистить историю
+                        </button>
                         <ListFilter sortByTypeHandler={this.props.sortByTypeHandler.bind(this)}/>
                         <ul ref="debugList">
                             {CreateFragment(listRows)}

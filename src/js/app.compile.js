@@ -24105,7 +24105,7 @@ WoolEvent.prototype = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.STORAGE = exports.ACTIONS_TYPES = undefined;
+exports.STORAGE_SETTINGS = exports.STORAGE = exports.ACTIONS_TYPES = undefined;
 
 var _keymirror = require("keymirror");
 
@@ -24125,10 +24125,15 @@ var ACTIONS_TYPES = (0, _keymirror2.default)({
     SELECT_ITEM_FROM_LIST: null,
     REMOVE_CONNECT: null,
     ADD_CONNECT: null,
-    UPDATE_CONNECT: null
+    UPDATE_CONNECT: null,
+    CLEAR_DEBUG_LIST: null
 }); /**
      * Created by Abaddon on 30.12.2015.
      */
+
+var STORAGE_SETTINGS = {
+    LIST_LIMIT: 40
+};
 
 var STORAGE = (0, _keymirror2.default)({
     TAG: "JSON_DEBUG",
@@ -24137,6 +24142,7 @@ var STORAGE = (0, _keymirror2.default)({
 
 exports.ACTIONS_TYPES = ACTIONS_TYPES;
 exports.STORAGE = STORAGE;
+exports.STORAGE_SETTINGS = STORAGE_SETTINGS;
 
 },{"keymirror":28}],219:[function(require,module,exports){
 /**
@@ -24440,6 +24446,15 @@ exports.default = {
         _Dispatcher2.default.dispatch({
             actionType: _Constants.ACTIONS_TYPES.REMOVE_FROM_STORAGE,
             index: index
+        });
+    },
+
+    /**
+     * Clear debug list
+     */
+    clear: function clear() {
+        _Dispatcher2.default.dispatch({
+            actionType: _Constants.ACTIONS_TYPES.CLEAR_DEBUG_LIST
         });
     },
 
@@ -24917,6 +24932,20 @@ var DebugList = function (_Component) {
             _LocalStore2.default.updateItem(input.value, { checked: input.checked });
             _GlobalStore2.default.trigger("SELECT_ITEM_FROM_LIST", input.value, input.checked);
         }
+
+        /**
+         * Clear debug history from storage
+         * @param e
+         * @private
+         */
+
+    }, {
+        key: "_clearDebugList",
+        value: function _clearDebugList(e) {
+            _StorageActions2.default.clear();
+            e.preventDefault();
+            e.stopPropagation();
+        }
     }, {
         key: "render",
         value: function render() {
@@ -24974,6 +25003,11 @@ var DebugList = function (_Component) {
                     _react2.default.createElement(
                         "div",
                         { id: "list", className: "col col--one" },
+                        _react2.default.createElement(
+                            "button",
+                            { onClick: this._clearDebugList.bind(this), className: "btn btn--cube save clearHistory" },
+                            "Очистить историю"
+                        ),
                         _react2.default.createElement(_ListFilterReact2.default, { sortByTypeHandler: this.props.sortByTypeHandler.bind(this) }),
                         _react2.default.createElement(
                             "ul",
@@ -25058,6 +25092,7 @@ var EditorBlock = function (_Component) {
                     var editor = new JSONEditor(this.refs.editor);
                     _Utility2.default.addClass("show", this.refs.editor_wrap);
                     editor.set(p.data);
+                    editor.collapseAll();
                 }.bind(this, params), 50);
             } else {
                 params = {};
@@ -26647,6 +26682,10 @@ var _objectAssign = require("object-assign");
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
+var _GlobalStore = require("./GlobalStore");
+
+var _GlobalStore2 = _interopRequireDefault(_GlobalStore);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26676,6 +26715,10 @@ var LocalStore = function (_BaseStore) {
             switch (action.actionType) {
                 case _Constants.ACTIONS_TYPES.REMOVE_FROM_STORAGE:
                     this.removeItem(action.index);
+                    this.trigger("UPDATE_STORE");
+                    break;
+                case _Constants.ACTIONS_TYPES.CLEAR_DEBUG_LIST:
+                    this._clearList();
                     this.trigger("UPDATE_STORE");
                     break;
             }
@@ -26715,7 +26758,14 @@ var LocalStore = function (_BaseStore) {
         value: function setItem(item) {
             var store = this.getAll();
             item.date = _Utility2.default.getDate();
-            store.push(item);
+
+            if (store.length < _Constants.STORAGE_SETTINGS.LIST_LIMIT) {
+                store.push(item);
+            } else {
+                var delItem = store.shift();
+                _GlobalStore2.default.trigger("SELECT_ITEM_FROM_LIST", delItem.timestamp, false);
+                store.push(item);
+            }
             try {
                 localStorage.setItem(_Constants.STORAGE.TAG, JSON.stringify(store));
             } catch (e) {
@@ -26742,6 +26792,17 @@ var LocalStore = function (_BaseStore) {
                 }
             }
             this.saveToStore();
+        }
+
+        /**
+         * Clear debug list
+         * @private
+         */
+
+    }, {
+        key: "_clearList",
+        value: function _clearList() {
+            localStorage.setItem(_Constants.STORAGE.TAG, []);
         }
 
         /**
@@ -26904,7 +26965,7 @@ var LocalStore = function (_BaseStore) {
 
 exports.default = new LocalStore();
 
-},{"../Constants":218,"../Utility":219,"./BaseStore":236,"object-assign":29}],240:[function(require,module,exports){
+},{"../Constants":218,"../Utility":219,"./BaseStore":236,"./GlobalStore":238,"object-assign":29}],240:[function(require,module,exports){
 /**
  * Created by Abaddon on 30.12.2015.
  */

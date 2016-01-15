@@ -15,6 +15,7 @@ export default class EditorBlock extends Component {
                 var editor = new JSONEditor(this.refs.editor);
                 Utility.addClass("show", this.refs.editor_wrap);
                 editor.set(p.data);
+                editor.collapseAll();
             }.bind(this, params), 50);
         } else {
             params = {};

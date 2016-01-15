@@ -3,9 +3,10 @@
  */
 "use strict";
 import BaseStore from "./BaseStore";
-import {ACTIONS_TYPES, STORAGE} from "../Constants";
+import {ACTIONS_TYPES, STORAGE, STORAGE_SETTINGS} from "../Constants";
 import Utility from "../Utility";
 import merge from "object-assign";
+import GlobalStore from "./GlobalStore";
 
 class LocalStore extends BaseStore {
     constructor() {
@@ -18,6 +19,10 @@ class LocalStore extends BaseStore {
         switch (action.actionType) {
             case ACTIONS_TYPES.REMOVE_FROM_STORAGE:
                 this.removeItem(action.index);
+                this.trigger("UPDATE_STORE");
+                break;
+            case ACTIONS_TYPES.CLEAR_DEBUG_LIST:
+                this._clearList();
                 this.trigger("UPDATE_STORE");
                 break;
         }
@@ -89,7 +94,14 @@ class LocalStore extends BaseStore {
     setItem(item) {
         var store = this.getAll();
         item.date = Utility.getDate();
-        store.push(item);
+
+        if (store.length < STORAGE_SETTINGS.LIST_LIMIT) {
+            store.push(item);
+        } else {
+            var delItem = store.shift();
+            GlobalStore.trigger("SELECT_ITEM_FROM_LIST", delItem.timestamp, false);
+            store.push(item);
+        }
         try {
             localStorage.setItem(STORAGE.TAG, JSON.stringify(store));
         } catch (e) {
@@ -112,6 +124,14 @@ class LocalStore extends BaseStore {
             }
         }
         this.saveToStore();
+    }
+
+    /**
+     * Clear debug list
+     * @private
+     */
+    _clearList() {
+        localStorage.setItem(STORAGE.TAG, []);
     }
 
     /**

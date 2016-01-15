@@ -139,6 +139,11 @@ This must be run when you have at least 2 sprites.
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   display: inline-block;
 }
+.btn.clearHistory {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+}
 .btn--cube {
   min-width: 64px;
   padding: 10px 16px;
@@ -147,6 +152,7 @@ This must be run when you have at least 2 sprites.
 }
 .btn.save {
   background-color: #009688;
+  color: #ffffff;
 }
 .btn.save:hover,
 .btn.save:active {

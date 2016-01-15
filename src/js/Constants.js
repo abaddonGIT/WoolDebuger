@@ -15,12 +15,17 @@ const ACTIONS_TYPES = keymirror({
     SELECT_ITEM_FROM_LIST: null,
     REMOVE_CONNECT: null,
     ADD_CONNECT: null,
-    UPDATE_CONNECT: null
+    UPDATE_CONNECT: null,
+    CLEAR_DEBUG_LIST: null
 });
+
+const STORAGE_SETTINGS = {
+    LIST_LIMIT: 40
+};
 
 const STORAGE = keymirror({
     TAG: "JSON_DEBUG",
-    SOCKET_TAG: "CONNECTION_LIST"
+    SOCKET_TAG: "CONNECTION_LIST",
 });
 
-export {ACTIONS_TYPES, STORAGE};
+export {ACTIONS_TYPES, STORAGE, STORAGE_SETTINGS};
